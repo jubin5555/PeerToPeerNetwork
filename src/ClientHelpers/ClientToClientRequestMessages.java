@@ -1,4 +1,4 @@
-package Client;
+package ClientHelpers;
 
 /**
  * This class is used to return the messages which are send from the client to other clients.
