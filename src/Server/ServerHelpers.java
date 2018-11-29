@@ -24,7 +24,15 @@ public class ServerHelpers {
     }
     public static Integer getPortNumber(String message){
         String[] messageSplit = message.split("Port: ",2);
-        return Integer.parseInt(messageSplit[1].replaceAll("\\s",""));
+        if((messageSplit[1].replaceAll("\\s","")).length()==5){
+            return Integer.parseInt((messageSplit[1].replaceAll("\\s","")));
+        }
+        String[] messageSplit2 =messageSplit[1].split(" ");
+        return Integer.parseInt((messageSplit2[0].replaceAll("\\s","")));
+    }
+    public static String getRFCTitle(String message){
+        String[] messageSplit =message.split("Title:",2);
+        return messageSplit[1];
     }
     //the method is used to remove the enteries from the server when the client leaves.
     public static void deleteEntries(Peer peer, Map<Integer,Peer> peerMap, Map<Integer, RFC> rfcMap){

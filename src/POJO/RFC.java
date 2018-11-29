@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class RFC {
     private Integer RFCId;
-   /* private String RFCName;*/
+    private String RFCName;
     private Set<Peer> setOfPeerWithRFC ;
 
     public RFC(int RFCId/*,String RFCName*/) {
@@ -22,10 +22,12 @@ public class RFC {
     public int getRFCId(){
         return this.RFCId;
     }
-
-  /*  public String getRFCName(){
+    public void setRFCName(String rfcName){
+        this.RFCName =rfcName;
+    }
+    public String getRFCName(){
         return this.RFCName;
-    }*/
+    }
 
     public Set<Peer> getListOfPeerWithRFC(){
         return this.setOfPeerWithRFC;

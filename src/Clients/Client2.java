@@ -2,6 +2,7 @@ package Clients;
 
 // A Java program for a Client
 
+import AppConstants.RFCTitle;
 import ClientHelpers.ClientHelper;
 import ClientHelpers.ClientToClientRequestMessages;
 import ClientHelpers.ClientToClientResponseMessage;
@@ -47,7 +48,7 @@ public class Client2
             if(userInput.equals("STARTUP")) {
                 LinkedList<RFC> RFCList = ClientHelper.getRFCList("src\\ClientFiles\\Client2");
                 for (RFC rfc : RFCList) {
-                    System.out.println(rfc.getRFCId());
+                    out.flush();
                     out.println(ClientToServerRequestMessages.generateAddMessage(rfc, peer));
                     input.read(buffer);
                     System.out.println(new String(buffer));
@@ -62,6 +63,7 @@ public class Client2
                 System.out.print("enter rfc id for lookup : ");
                 int rfcID = Integer.parseInt(reader.readLine());
                 RFC rfc = new RFC(rfcID);
+                rfc.setRFCName(RFCTitle.getRFCName(rfcID));
                 out.println(ClientToServerRequestMessages.generateLookUpMessage(rfc,peer));
                 input.read(buffer);
                 String lookupInput = new String(buffer);
@@ -69,7 +71,6 @@ public class Client2
                     System.out.println(new String(buffer));
                 }
                 else{
-                    System.out.println("Port Number : "+ClientHelper.getPortNumber(lookupInput.trim()));
                     System.out.println(new String(buffer));
                 }
 
@@ -85,17 +86,15 @@ public class Client2
                 System.out.print("enter rfc id for the file : ");
                 int rfcID = Integer.parseInt(reader.readLine());
                 RFC rfc = new RFC(rfcID);
+                rfc.setRFCName(RFCTitle.getRFCName(rfcID));
                 out.println(ClientToServerRequestMessages.generateLookUpMessage(rfc,peer));
                 input.read(buffer);
                 String lookupInput = new String(buffer);
-                System.out.println("lookUpInput:"+lookupInput);
                 if(!ClientHelper.getMethod(lookupInput).equals("200 OK")) {
                     System.out.println(new String(buffer));
                 }
                 else{
-                    System.out.println("Port Number : "+ClientHelper.getPortNumber(lookupInput.trim()));
                     int portNumber =ClientHelper.getPortNumber(lookupInput.trim());
-                    System.out.println("Port Number Client1 : " +portNumber);
                     Socket tempSocket= new Socket(ipAddress, portNumber);
                     PrintWriter tempOut = new PrintWriter(tempSocket.getOutputStream(), true);
                     tempOut.println(ClientToClientRequestMessages.getMessage(rfcID,InetAddress.getLocalHost().getHostName()));
@@ -126,13 +125,13 @@ public class Client2
                         }
                         count++;
                     }
-                    System.out.println("OUtside GET");
                     writer.close();
                     inputByte2.close();
                     tempInput.close();
                     tempOut.close();
                     tempSocket.close();
                     RFC tempRFC = new RFC(rfcID);
+                    tempRFC.setRFCName(RFCTitle.getRFCName(rfcID));
                     out.println(ClientToServerRequestMessages.generateAddMessage(tempRFC, peer));
                     input.read(buffer);
                     System.out.println(new String(buffer));
@@ -165,7 +164,6 @@ class receieveMessage2 extends Thread{
                 int bytesRead = 0;
                 int count =0;
                 tempInput.read(buffer);
-                System.out.println("Inside Client 2 "+ new String(buffer));
                 Integer rfcID =ClientHelper.getRFCIDFromGETMessage(new String(buffer));
                 file= new File("src\\ClientFiles\\Client2\\rfc"+rfcID+".txt");
                 fileReader = new BufferedInputStream(new FileInputStream(file));
@@ -183,8 +181,6 @@ class receieveMessage2 extends Thread{
                 if(tempInput!=null){tempInput.close();}
                 if(fileReader!=null){fileReader.close();}
                 if(clientSocket!=null){clientSocket.close();}
-
-                System.out.println("out");
             }
         } catch (IOException e) {
             e.printStackTrace();

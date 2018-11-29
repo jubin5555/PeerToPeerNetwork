@@ -25,7 +25,7 @@ public class ServerMessages {
         return sb.toString();
     }
     public static String generateOKForList(Map<Integer,RFC> rfc) {
-        System.out.println("Inside generateOkList");
+        /*System.out.println("Inside generateOkList");*/
         StringBuffer sb = new StringBuffer();
         sb.append("P2P-CI/1.0 200 OK");
         sb.append(System.getProperty("line.separator"));
@@ -55,17 +55,20 @@ public class ServerMessages {
 
     private static String generateDatabase(Map<Integer,RFC> rfc){
         StringBuffer sb = new StringBuffer();
-        System.out.println("Inside generateDatabase");
+        /*System.out.println("Inside generateDatabase");*/
         for(Integer iterator :rfc.keySet())
         {
             /*sb.append("RFCName: ");*/
             //sb.append(rfcIterator.getRFCName());
-            System.out.println(rfc.get(iterator).getRFCId());
+           /* System.out.println(rfc.get(iterator).getRFCId());*/
             Set<Peer> peerList = rfc.get(iterator).getListOfPeerWithRFC();
             for(Peer peer :peerList)
             {
+
                 sb.append("ID: ");
                 sb.append(rfc.get(iterator).getRFCId()+" ");
+                sb.append("Title: ");
+                sb.append(rfc.get(iterator).getRFCName());
                 sb.append("hostname: ");
                 sb.append(peer.getHostName()+" ");
                 sb.append("upload port number: ");

@@ -1,6 +1,7 @@
 package Clients;
 
 
+import AppConstants.RFCTitle;
 import ClientHelpers.ClientHelper;
 import ClientHelpers.ClientToClientRequestMessages;
 import ClientHelpers.ClientToClientResponseMessage;
@@ -60,6 +61,7 @@ public class Client1
                 System.out.print("enter rfc id for lookup : ");
                 int rfcID = Integer.parseInt(reader.readLine());
                 RFC rfc = new RFC(rfcID);
+                rfc.setRFCName(RFCTitle.getRFCName(rfcID));
                 out.println(ClientToServerRequestMessages.generateLookUpMessage(rfc,peer));
                 input.read(buffer);
                 String lookupInput = new String(buffer);
@@ -67,7 +69,7 @@ public class Client1
                     System.out.println(new String(buffer));
                 }
                 else{
-                    System.out.println("Port Number : "+ClientHelper.getPortNumber(lookupInput.trim()));
+                    /*System.out.println("Port Number : "+ClientHelper.getPortNumber(lookupInput.trim()));*/
                     System.out.println(new String(buffer));
                 }
 
@@ -82,6 +84,7 @@ public class Client1
                 System.out.print("enter rfc id for the file : ");
                 int rfcID = Integer.parseInt(reader.readLine());
                 RFC rfc = new RFC(rfcID);
+                rfc.setRFCName(RFCTitle.getRFCName(rfcID));
                 out.println(ClientToServerRequestMessages.generateLookUpMessage(rfc,peer));
                 input.read(buffer);
                 String lookupInput = new String(buffer);
@@ -90,9 +93,9 @@ public class Client1
                     System.out.println(new String(buffer));
                 }
                 else{
-                    System.out.println("Port Number : "+ClientHelper.getPortNumber(lookupInput.trim()));
+                  /*  System.out.println("Port Number : "+ClientHelper.getPortNumber(lookupInput.trim()));*/
                     int portNumber =ClientHelper.getPortNumber(lookupInput.trim());
-                    System.out.println("Port Number Client1 : " +portNumber);
+                    /*System.out.println("Port Number Client1 : " +portNumber);*/
                     Socket tempSocket= new Socket(ipAddress, portNumber);
                     PrintWriter tempOut = new PrintWriter(tempSocket.getOutputStream(), true);
                     tempOut.println(ClientToClientRequestMessages.getMessage(rfcID,InetAddress.getLocalHost().getHostName()));
@@ -110,28 +113,25 @@ public class Client1
                         String s =new String(tempBuffer);
                         String[] sSplit;
                         if(count==0) {
-                             sSplit =s.split("RFC",2);
-                             System.out.println(sSplit[0]);
-                             writer.print("RFC");
-                             writer.println(sSplit[1]);
-                            /* outputFile.write("RFC".getBytes());
-                             outputFile.write(sSplit[1].getBytes());*/
-                          /*  outputFile.flush();*/
+                            sSplit =s.split("Txt",2);
+                            System.out.print(sSplit[0]);
+                            System.out.println("Txt");
+                            writer.print("tXT");
+                            writer.println(sSplit[1]);
+                            writer.flush();
                         }
                         else {
                             writer.println(new String(tempBuffer));
-                            /*outputFile.write(tempBuffer, 0, bytesRead);
-                            outputFile.flush();*/
                         }
                         count++;
                     }
-                    System.out.println("OUtside GET");
                     writer.close();
                     inputByte2.close();
                     tempInput.close();
                     tempOut.close();
                     tempSocket.close();
                     RFC tempRFC = new RFC(rfcID);
+                    tempRFC.setRFCName(RFCTitle.getRFCName(rfcID));
                     out.println(ClientToServerRequestMessages.generateAddMessage(tempRFC, peer));
                     input.read(buffer);
                     System.out.println(new String(buffer));

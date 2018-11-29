@@ -16,7 +16,10 @@ public class ClientToServerRequestMessages {
         sb.append(peer.getHostName());
         sb.append(System.getProperty("line.separator"));
         sb.append("Port: ");
-        sb.append(peer.getUploadPortNumber());
+        sb.append(peer.getUploadPortNumber() +" ");
+        sb.append(System.getProperty("line.separator"));
+        sb.append("Title: ");
+        sb.append(rfc.getRFCName());
         //sb.append(System.getProperty("line.separator"));
         return sb.toString();
     }
@@ -31,9 +34,10 @@ public class ClientToServerRequestMessages {
         sb.append(peer.getHostName());
         sb.append(System.getProperty("line.separator"));
         sb.append("Port: ");
-        sb.append(peer.getUploadPortNumber());
-        //sb.append("Title: ");
-        //sb.append(rfc.getRFCName());
+        sb.append(peer.getUploadPortNumber()+" ");
+        sb.append(System.getProperty("line.separator"));
+        sb.append("Title: ");
+        sb.append(rfc.getRFCName());
         return sb.toString();
     }
     public static String generateListMessage(Peer peer){
@@ -46,6 +50,7 @@ public class ClientToServerRequestMessages {
         sb.append(System.getProperty("line.separator"));
         sb.append("Port: ");
         sb.append(peer.getUploadPortNumber());
+        sb.append(System.getProperty("line.separator"));
         return sb.toString();
     }
     public static String generateLeaveServerMessage(Peer peer){
@@ -58,6 +63,7 @@ public class ClientToServerRequestMessages {
         sb.append(System.getProperty("line.separator"));
         sb.append("Port: ");
         sb.append(peer.getUploadPortNumber());
+        sb.append(System.getProperty("line.separator"));
         return sb.toString();
 
     }
