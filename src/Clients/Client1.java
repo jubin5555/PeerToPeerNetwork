@@ -47,15 +47,17 @@ public class Client1
             if(userInput.equals("STARTUP")) {
                 LinkedList<RFC> RFCList = ClientHelper.getRFCList("src\\ClientFiles\\Client1");
                 for (RFC rfc : RFCList) {
+                    out.flush();
                     out.println(ClientToServerRequestMessages.generateAddMessage(rfc, peer));
-                    input.read(buffer);
-                    System.out.println(new String(buffer));
+                    out.flush();
+                    input.read(buffer,0,buffer.length);
+                    System.out.println(new String(buffer).trim());
                 }
             }
             else if(userInput.equals("LIST")) {
                 out.println(ClientToServerRequestMessages.generateListMessage(peer));
                 input.read(buffer);
-                System.out.println(new String(buffer));
+                System.out.println(new String(buffer).trim());
             }
             else if(userInput.equals("LOOKUP")) {
                 System.out.print("enter rfc id for lookup : ");
@@ -70,7 +72,7 @@ public class Client1
                 }
                 else{
                     /*System.out.println("Port Number : "+ClientHelper.getPortNumber(lookupInput.trim()));*/
-                    System.out.println(new String(buffer));
+                    System.out.println(new String(buffer).trim());
                 }
 
             }
@@ -78,7 +80,7 @@ public class Client1
                 out.println(ClientToServerRequestMessages.generateLeaveServerMessage(peer));
                 input.read(buffer);
                 String leaveConfirm = new String(buffer);
-                System.out.println(leaveConfirm);
+                System.out.println(leaveConfirm.trim());
             }
             else if(userInput.equals("GET")){
                 System.out.print("enter rfc id for the file : ");
@@ -88,7 +90,7 @@ public class Client1
                 out.println(ClientToServerRequestMessages.generateLookUpMessage(rfc,peer));
                 input.read(buffer);
                 String lookupInput = new String(buffer);
-                System.out.println("lookUpInput:"+lookupInput);
+                System.out.println("lookUpInput:"+lookupInput.trim());
                 if(!ClientHelper.getMethod(lookupInput).equals("200 OK")) {
                     System.out.println(new String(buffer));
                 }
@@ -136,6 +138,9 @@ public class Client1
                     input.read(buffer);
                     System.out.println(new String(buffer));
                 }
+            }
+            else{
+                System.out.println(Server.ServerMessages.generateBadRequestMessage());
             }
         }
     }

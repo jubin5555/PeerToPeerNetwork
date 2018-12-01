@@ -58,13 +58,9 @@ public class ServerMessages {
         /*System.out.println("Inside generateDatabase");*/
         for(Integer iterator :rfc.keySet())
         {
-            /*sb.append("RFCName: ");*/
-            //sb.append(rfcIterator.getRFCName());
-           /* System.out.println(rfc.get(iterator).getRFCId());*/
             Set<Peer> peerList = rfc.get(iterator).getListOfPeerWithRFC();
             for(Peer peer :peerList)
             {
-
                 sb.append("ID: ");
                 sb.append(rfc.get(iterator).getRFCId()+" ");
                 sb.append("Title: ");

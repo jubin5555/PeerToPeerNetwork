@@ -62,22 +62,21 @@ class ClientThread extends Thread
                             Set<Peer> tempSet = rfcMap.get(RFCId).getListOfPeerWithRFC();
                             Peer tempPeer = peerMap.get(portNo);
                             tempSet.add(tempPeer);
-                            System.out.println(ServerMessages.generateOKForAdd(sb.toString()));
+                            String output =ServerMessages.generateOKForAdd(sb.toString());
+                            System.out.println(output);
                             out2.flush();
-                            out2.println(ServerMessages.generateOKForAdd(sb.toString()));
+                            out2.println(output);
+                            out2.flush();
                         } else {
                             Peer tempPeer = peerMap.get(portNo);
-                           /* System.out.println("PeerName: " + peer.getHostName());
-                            System.out.println("PeerID: " + peer.getUploadPortNumber());*/
                             rfc.setListOfPeerWithRFC(tempPeer);
                             rfcMap.put(RFCId, rfc);
                             System.out.println(ServerMessages.generateOKForAdd(sb.toString()));
                             out2.flush();
                             out2.println(ServerMessages.generateOKForAdd(sb.toString()));
+                            out2.flush();
                         }
                     } else if (methodType.equals("LIST")) {
-                       /* System.out.println("LIST");
-                        System.out.println("Inside List : " + rfcMap);*/
                         System.out.println(ServerMessages.generateOKForList(rfcMap));
                         out2.println(ServerMessages.generateOKForList(rfcMap));
                     } else if (methodType.equals("LOOKUP")) {
@@ -104,6 +103,8 @@ class ClientThread extends Thread
                     }
                     else{
                             System.out.println(ServerMessages.generateBadRequestMessage());
+                            out2.println();
+
                         }
                 }
 

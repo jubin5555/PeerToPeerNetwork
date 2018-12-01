@@ -36,19 +36,14 @@ public class ServerHelpers {
     }
     //the method is used to remove the enteries from the server when the client leaves.
     public static void deleteEntries(Peer peer, Map<Integer,Peer> peerMap, Map<Integer, RFC> rfcMap){
-        System.out.println(peer.getHostName());
-        System.out.println(peer.getUploadPortNumber());
-        System.out.println(rfcMap);
         Iterator<Map.Entry<Integer,RFC>> it = rfcMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<Integer, RFC> pair = it.next();
             RFC rfc =pair.getValue();
             Set<Peer> peerList = rfc.getListOfPeerWithRFC();
             Iterator<Peer> iterator = peerList.iterator();
-
             while(iterator.hasNext()) {
                 if(iterator.next().getUploadPortNumber().equals(peer.getUploadPortNumber())){
-                    System.out.println("remove the peer");
                     iterator.remove();
                 }
             }
