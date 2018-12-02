@@ -12,6 +12,7 @@ import POJO.RFC;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -38,7 +39,11 @@ public class Client2
         InputStream inputByte = SOCKET.getInputStream();
         BufferedInputStream input = new BufferedInputStream(inputByte);
         PrintWriter out = new PrintWriter(SOCKET.getOutputStream(), true);
-        Peer peer = new Peer(InetAddress.getLocalHost().getHostName(), 49156);
+        Socket tempSocket1 = new Socket();
+        tempSocket1.connect(new InetSocketAddress("www.google.com", 80));
+        String localHost =tempSocket1.getLocalAddress().toString().substring(1);
+        tempSocket1.close();
+        Peer peer = new Peer(localHost, 49156);
 
         while(true)
         {
@@ -96,7 +101,8 @@ public class Client2
                 }
                 else{
                     int portNumber =ClientHelper.getPortNumber(lookupInput.trim());
-                    Socket tempSocket= new Socket(ipAddress, portNumber);
+                    String peerIPAdress=ClientHelper.getHostName(lookupInput.trim());
+                    Socket tempSocket= new Socket(peerIPAdress.trim(), portNumber);
                     PrintWriter tempOut = new PrintWriter(tempSocket.getOutputStream(), true);
                     tempOut.println(ClientToClientRequestMessages.getMessage(rfcID,InetAddress.getLocalHost().getHostName()));
                     InputStream inputByte2 = tempSocket.getInputStream();

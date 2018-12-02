@@ -11,6 +11,7 @@ import POJO.RFC;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -37,8 +38,13 @@ public class Client1
         InputStream inputByte = SOCKET.getInputStream();
         BufferedInputStream input = new BufferedInputStream(inputByte);
         PrintWriter out = new PrintWriter(SOCKET.getOutputStream(), true);
-        Peer peer = new Peer(InetAddress.getLocalHost().getHostName(), 49155);
-
+        Socket tempSocket1 = new Socket();
+        tempSocket1.connect(new InetSocketAddress("www.google.com", 80));
+        System.out.println(tempSocket1.getLocalAddress());
+        String localHost =tempSocket1.getLocalAddress().toString().substring(1);
+        tempSocket1.close();
+        System.out.println("client1:" + localHost)  ;
+        Peer peer = new Peer(localHost, 49155);
         while(true)
         {
             byte[] buffer = new byte[1024];
@@ -97,8 +103,10 @@ public class Client1
                 else{
                   /*  System.out.println("Port Number : "+ClientHelper.getPortNumber(lookupInput.trim()));*/
                     int portNumber =ClientHelper.getPortNumber(lookupInput.trim());
+                    String peerIPAdress=ClientHelper.getHostName(lookupInput.trim());
+                    System.out.println(peerIPAdress+"peerIPAdress");
                     /*System.out.println("Port Number Client1 : " +portNumber);*/
-                    Socket tempSocket= new Socket(ipAddress, portNumber);
+                    Socket tempSocket= new Socket(peerIPAdress.trim(), portNumber);
                     PrintWriter tempOut = new PrintWriter(tempSocket.getOutputStream(), true);
                     tempOut.println(ClientToClientRequestMessages.getMessage(rfcID,InetAddress.getLocalHost().getHostName()));
                     InputStream inputByte2 = tempSocket.getInputStream();

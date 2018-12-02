@@ -27,10 +27,17 @@ public class ClientHelper {
         }
         return rfc;
     }
-    //this method is used to get the port number
+    //this method is used to get the port number from output message of lookup
     public static int getPortNumber(String s){
         String[] sSplit = s.split("Port Number: ",2);
         return Integer.parseInt(sSplit[1]);
+    }
+    //this method is used to get the host ip address from output message of lookup
+    public static String getHostName(String s){
+        String[] sSplit = s.split("Name of peer : ",2);
+        String[] sSplit1 = sSplit[1].split("Port Number: ",2);
+        System.out.println("The client adress is:"+sSplit1[0]);
+        return sSplit1[0];
     }
 
     //this method is used to get the Message type.
