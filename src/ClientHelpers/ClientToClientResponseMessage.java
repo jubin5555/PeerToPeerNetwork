@@ -1,6 +1,6 @@
 package ClientHelpers;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -63,20 +63,18 @@ public class ClientToClientResponseMessage {
         sb.append(System.getProperty("os.name"));
         return sb.toString();
     }
-    @NotNull
+
     private static  String getCurrentDate(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         return (formatter.format(date));
 
     }
-    @NotNull
     private static  String getLastModifiedDate(String fileName){
         File f = new File(fileName);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return (formatter.format(f.lastModified()));
     }
-    @NotNull
     private static Long getFileLength(String fileName){
        File f = new File(fileName);
        return f.length();
